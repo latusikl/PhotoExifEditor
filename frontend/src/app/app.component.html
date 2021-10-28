@@ -1,0 +1,46 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button id="hamburger" (click)="drawer.toggle()" matTooltip="Click to expand side menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <div class="title">
+        <div class="title-part-1">exif</div>
+        <div class="title-part-2">editor</div>
+    </div>
+    <span class="spacer"></span>
+    <div *ngIf="darkMode; else lightMode" class="flex-container">
+        <mat-icon class="dark-mode-icon" matTooltip="Dark mode">dark_mode</mat-icon>
+    </div>
+    <ng-template #lightMode>
+        <div class="flex-container">
+            <mat-icon class="dark-mode-icon" matTooltip="Light mode">light_mode</mat-icon>
+        </div>
+    </ng-template>
+    <mat-slide-toggle [(ngModel)]="darkMode" (change)="darkModeChange($event.checked)"> </mat-slide-toggle>
+</mat-toolbar>
+<mat-drawer-container class="app-container" autosize>
+    <mat-drawer #drawer class="sidenav" mode="over">
+        <mat-nav-list id="nav-list" (click)="drawer.toggle()">
+            <mat-list-item routerLink="/">
+                <mat-icon>home</mat-icon>
+                <span class="nav-span">Home</span>
+            </mat-list-item>
+            <mat-list-item routerLink="/gallery">
+                <mat-icon>collections</mat-icon>
+                <span class="nav-span">Gallery</span>
+            </mat-list-item>
+            <mat-list-item routerLink="/exif">
+                <mat-icon>preview</mat-icon>
+                <span class="nav-span">Exif viewer</span>
+            </mat-list-item>
+            <mat-list-item routerLink="/location">
+                <mat-icon>place</mat-icon>
+                <span class="nav-span">Location viewer</span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-nav-list>
+    </mat-drawer>
+
+    <div class="main-content">
+        <router-outlet></router-outlet>
+    </div>
+</mat-drawer-container>

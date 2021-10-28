@@ -1,0 +1,23 @@
+.droparea {
+    border: 2px dashed #ccc;
+    height: 250px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.browse-file {
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.droparea.active {
+    border: 2px dashed #82e318;
+    background-color: #def1cc;
+}

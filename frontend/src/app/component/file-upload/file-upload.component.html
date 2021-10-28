@@ -1,0 +1,15 @@
+<div class="container">
+    <div
+        class="droparea"
+        (dragover)="isActive = true"
+        (drop)="onDrop($event)"
+        (dragleave)="isActive = false"
+        [class.active]="isActive"
+    >
+        <input type="file" class="browse-file" (change)="onSelectedFile($event)" />
+        <div>
+            Choose files or 
+            Drag and drop files here
+        </div>
+    </div>
+</div>
