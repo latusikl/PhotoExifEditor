@@ -17,11 +17,10 @@ $title-part2-color: #9e9e9e;
 
 #home-container {
     display: flex;
-    padding: 3em;
     justify-content: center;
     align-items: center;
-    height: 100%;
     flex-wrap: wrap;
+    flex-grow: 2;
 }
 
 #img-container {
@@ -35,11 +34,29 @@ $title-part2-color: #9e9e9e;
     }
 
     h3 {
-        margin: .2em;
+        margin: 0.2em;
     }
-    
+
     hr {
         border: 1px solid $app-primary;
         width: 100%;
     }
 }
+
+.img-container {
+    align-items: center;
+    justify-content: center;
+    align-content: space-between;
+    padding: 3em;
+
+    > img {
+        margin-bottom: 0.5em;
+        &:hover {
+            filter: brightness(110%);
+            transform: scale(1.01);
+            transition: all 0.3s ease-in-out;
+        }
+    }
+}
+
+

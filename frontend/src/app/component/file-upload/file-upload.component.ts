@@ -1,19 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { ImageService } from 'src/app/service/image.service';
 
 @Component({
     selector: 'file-upload',
     templateUrl: './file-upload.component.html',
     styleUrls: ['./file-upload.component.scss'],
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit {
     isActive = false;
     image: File | undefined;
+
+    @HostBinding('class')
+    class = 'flex-stretch';
+
+    constructor(private imageService: ImageService) {}
+
+    ngOnInit(): void {
+        this.imageService.image.pipe().subscribe((img) => this.selectImage(img));
+    }
 
     onDrop(event: DragEvent): void {
         event.preventDefault();
         event.stopPropagation();
         if (!!event.dataTransfer) {
-            this.checkFile(event.dataTransfer.files[0]);
+            this.imageService.checkFile(event.dataTransfer.files[0]);
         }
         this.isActive = false;
     }
@@ -21,31 +31,11 @@ export class FileUploadComponent {
     onSelectedFile(event: Event): void {
         const target = event.target as HTMLInputElement;
         if (!!target.files && target.files.length > 0) {
-            this.checkFile(target.files[0]);
+            this.imageService.checkFile(target.files[0]);
         }
     }
 
-    private selectImage(img: File): void {
+    private selectImage(img: File | undefined): void {
         this.image = img;
-    }
-
-    private checkFile(file: File): void {
-        const filereader = new FileReader();
-        filereader.onloadend = (event) => {
-            if (!!event.target && event.target.readyState === FileReader.DONE) {
-                const uint = new Uint8Array(event.target.result as ArrayBuffer);
-                const bytes: string[] = [];
-                uint.forEach((byte) => {
-                    bytes.push(byte.toString(16));
-                });
-                const hex = bytes.join('').toUpperCase();
-                if (hex === 'FFD8FFE0' || hex === 'FFD8FFDB') {
-                    // image/jpeg
-                    this.selectImage(file);
-                }
-            }
-        };
-        const blob = file.slice(0, 4);
-        filereader.readAsArrayBuffer(blob);
     }
 }

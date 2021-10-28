@@ -1,5 +1,5 @@
 <div id="main-container" class="flex-container">
-    <div id="home-container" class="flex-stretch">
+    <div *ngIf="!image; else imageSelected" id="home-container" class="flex-stretch">
         <div id="jumbotron" class="flex-container">
             <h1>Welcome</h1>
             <h3>
@@ -12,5 +12,13 @@
             <img id="home-img" src="assets/home-photo.svg" />
         </div>
     </div>
-    <file-upload></file-upload>
+    <ng-template #imageSelected>
+        <div class="flex-container flex-stretch img-container">
+            <img [src]="imageUrl" />
+            <div class="img-name">
+                <label>{{ image?.name }}</label>
+            </div>
+        </div>
+    </ng-template>
+        <file-upload></file-upload>
 </div>

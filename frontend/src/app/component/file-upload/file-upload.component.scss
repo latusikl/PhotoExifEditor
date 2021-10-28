@@ -1,10 +1,14 @@
 .droparea {
     border: 2px dashed #ccc;
-    height: 250px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &.active {
+        border: 2px dashed #78b33a;
+        background-color: #579e57;
+    }
 }
 
 .browse-file {
@@ -17,7 +21,6 @@
     height: 100%;
 }
 
-.droparea.active {
-    border: 2px dashed #82e318;
-    background-color: #def1cc;
+.flex-container {
+    padding: 3em;
 }
