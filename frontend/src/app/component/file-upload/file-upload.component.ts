@@ -1,5 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { ImageService } from 'src/app/service/image.service';
+import { ImageService } from 'src/app/service/image/image.service';
 
 @Component({
     selector: 'file-upload',

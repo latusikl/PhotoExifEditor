@@ -28,8 +28,6 @@
   ],
   "scripts": {
     "ng": "ng",
-    "ng-dev": "ng serve",
-    "build-angular-prod": "ng build --prod --output-path ./deployment/build/angular --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -56,8 +54,6 @@
     "@angular-devkit/build-angular": "^0.1102.15",
     "@angular/cli": "^11.2.15",
     "@angular/compiler-cli": "^11.2.14",
-    "@types/googlemaps": "^3.43.3",
-    "@types/is-valid-path": "^0.1.0",
     "@types/jasmine": "^3.10.1",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { ExifService } from '../exif/exif.service';
 
 @Injectable({
     providedIn: 'root',
@@ -7,6 +8,8 @@ import { BehaviorSubject } from 'rxjs';
 export class ImageService {
     image = new BehaviorSubject<File | undefined>(undefined);
     url = new BehaviorSubject<string>('');
+
+    constructor(private exifService: ExifService) {}
 
     checkFile(file: File): void {
         const filereader = new FileReader();
@@ -31,7 +34,9 @@ export class ImageService {
     private readUrl(file: File) {
         const reader = new FileReader();
         reader.onload = (event) => {
-            this.url.next(event.target?.result as string);
+            const url = event.target?.result as string;
+            this.url.next(url);
+            this.exifService.getExif(url).subscribe((exif) => console.log(exif));
         };
 
         reader.readAsDataURL(file);

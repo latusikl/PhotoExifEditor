@@ -12,6 +12,7 @@ import { ViewModule } from './view/view.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { FormsModule } from '@angular/forms';
         ViewModule,
         MatButtonModule,
         MatSlideToggleModule,
+        HttpClientModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

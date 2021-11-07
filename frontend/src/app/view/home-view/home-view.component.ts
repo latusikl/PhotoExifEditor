@@ -1,5 +1,5 @@
 import { Component, HostBinding } from '@angular/core';
-import { ImageService } from 'src/app/service/image.service';
+import { ImageService } from 'src/app/service/image/image.service';
 
 @Component({
     selector: 'app-home-view',
