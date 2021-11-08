@@ -6,10 +6,14 @@
         (dragleave)="isActive = false"
         [class.active]="isActive"
     >
-        <input type="file" class="browse-file" (change)="onSelectedFile($event)" />
-        <div>
-            Choose files or 
-            Drag and drop files here
-        </div>
+        <input
+            #fileInput
+            type="file"
+            class="browse-file"
+            title=" "
+            (click)="fileInput.value = ''"
+            (change)="onSelectedFile($event)"
+        />
+        <div>Choose files or Drag and drop files here</div>
     </div>
 </div>

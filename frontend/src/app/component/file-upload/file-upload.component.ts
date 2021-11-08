@@ -16,7 +16,7 @@ export class FileUploadComponent implements OnInit {
     constructor(private imageService: ImageService) {}
 
     ngOnInit(): void {
-        this.imageService.image.pipe().subscribe((img) => this.selectImage(img));
+        this.imageService.image.subscribe((img) => this.selectImage(img));
     }
 
     onDrop(event: DragEvent): void {

@@ -23,8 +23,8 @@ $title-part2-color: #9e9e9e;
     flex-grow: 2;
 }
 
-#img-container {
-    display: flex;
+#img-button-bar > * {
+    margin: .5em;
 }
 
 #jumbotron {

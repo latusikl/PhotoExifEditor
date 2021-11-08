@@ -18,7 +18,11 @@
             <div class="img-name">
                 <label>{{ image?.name }}</label>
             </div>
+            <div id="img-button-bar" class="flex-row">
+                <button mat-raised-button color="primary" (click)="editExif()">Edit</button>
+                <button mat-raised-button color="warn" (click)="deleteImg()">Delete</button>
+            </div>
         </div>
     </ng-template>
-        <file-upload></file-upload>
+    <file-upload></file-upload>
 </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ExifService } from '../exif/exif.service';
+import { ToastService } from '../toast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -9,7 +9,7 @@ export class ImageService {
     image = new BehaviorSubject<File | undefined>(undefined);
     url = new BehaviorSubject<string>('');
 
-    constructor(private exifService: ExifService) {}
+    constructor(private toastService: ToastService) {}
 
     checkFile(file: File): void {
         const filereader = new FileReader();
@@ -24,6 +24,8 @@ export class ImageService {
                 if (hex === 'FFD8FFE0' || hex === 'FFD8FFDB') {
                     // image/jpeg
                     this.selectImage(file);
+                } else {
+                    this.showError(file);
                 }
             }
         };
@@ -31,12 +33,16 @@ export class ImageService {
         filereader.readAsArrayBuffer(blob);
     }
 
+    deleteImage(): void {
+        this.image.next(undefined);
+        this.url.next('');
+    }
+
     private readUrl(file: File) {
         const reader = new FileReader();
         reader.onload = (event) => {
             const url = event.target?.result as string;
             this.url.next(url);
-            this.exifService.getExif(url).subscribe((exif) => console.log(exif));
         };
 
         reader.readAsDataURL(file);
@@ -45,5 +51,10 @@ export class ImageService {
     private selectImage(img: File): void {
         this.image.next(img);
         this.readUrl(img);
+    }
+
+    private showError(img: File): void {
+        const msg = 'Invalid image with name ' + img.name;
+        this.toastService.open(msg, 'error');
     }
 }

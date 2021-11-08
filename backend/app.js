@@ -11,12 +11,16 @@ app.use(cors());
 
 app.post('/getExif', (req, res) => {
   const img = req.body?.imgUrl;
-  if (!!img /* && validate image */) {
-    const exif = piexif.load(img);
-    res.send(exif);
+  if (!!img && img.includes('image/jpeg')) {
+    try {
+      const exif = piexif.load(img);
+      res.send(exif);
+    } catch(e) {
+      res.status(400).send({ message: e.message });
+    }
     return;
   } 
-  res.status(400).send('Invalid image');
+  res.status(400).send({ message: 'Invalid image'});
 });
 
 app.listen(port, () => {

@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { GetExifReqBody } from '../../model/getExifReqBody';
+import { IExif } from '../../model/piexif-types/interfaces';
 
 @Injectable({
     providedIn: 'root',
@@ -15,8 +17,8 @@ export class ExifService {
 
     constructor(private http: HttpClient) {}
 
-    //TODO: create type for exif data
-    getExif(imgUrl: string): Observable<any> {
-        return this.http.post(this.url + 'getExif', { imgUrl: imgUrl }, this.httpOptions);
+    getExif(imgUrl: string): Observable<IExif> {
+        const reqBody = { imgUrl: imgUrl } as GetExifReqBody;
+        return this.http.post<IExif>(this.url + 'getExif', reqBody, this.httpOptions);
     }
 }
