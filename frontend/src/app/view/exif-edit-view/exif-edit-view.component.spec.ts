@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExifEditComponent } from './exif-edit.component';
+import { ExifEditViewComponent } from './exif-edit-view.component';
 
-describe('ExifEditComponent', () => {
-    let component: ExifEditComponent;
-    let fixture: ComponentFixture<ExifEditComponent>;
+describe('ExifEditViewComponent', () => {
+    let component: ExifEditViewComponent;
+    let fixture: ComponentFixture<ExifEditViewComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ExifEditComponent],
+            declarations: [ExifEditViewComponent],
         }).compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ExifEditComponent);
+        fixture = TestBed.createComponent(ExifEditViewComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

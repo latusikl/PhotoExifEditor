@@ -3,16 +3,16 @@ import { Subscription } from 'rxjs';
 import { ImageService } from 'src/app/service/image/image.service';
 
 @Component({
-    selector: 'app-home-view',
+    selector: 'home-view',
     templateUrl: './home-view.component.html',
     styleUrls: ['./home-view.component.scss'],
 })
 export class HomeViewComponent implements OnInit, OnDestroy {
-    @HostBinding('class')
-    class = 'view';
-
     image!: File | undefined;
     imageUrl!: string;
+
+    @HostBinding('class')
+    private class = 'view';
 
     private imageSub = Subscription.EMPTY;
     private imgUrlSub = Subscription.EMPTY;

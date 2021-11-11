@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding, HostListener } from '@angular/core';
 import { MapOptions, tileLayer, Map, latLng } from 'leaflet';
 
 @Component({
@@ -7,6 +7,9 @@ import { MapOptions, tileLayer, Map, latLng } from 'leaflet';
     styleUrls: ['./map.component.scss'],
 })
 export class MapComponent {
+    @HostBinding('class')
+    private class = 'map-component';
+
     options: MapOptions = {
         layers: [
             tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -22,5 +25,10 @@ export class MapComponent {
 
     onMapReady(map: Map): void {
         this.map = map;
+    }
+
+    @HostListener('window:resize')
+    invalidateSize(): void {
+        this.map.invalidateSize();
     }
 }

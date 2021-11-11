@@ -1,10 +1,10 @@
 <div class="flex-container flex-stretch img-container">
-    <mat-card id="img-card">
+    <mat-card id="img-card" class="flex-container">
         <div id="img-name">
             <label>{{ imageName }}</label>
         </div>
         <img [src]="imageUrl" />
-        <div id="img-button-bar" class="flex-row" *ngIf="showButtons">
+        <div class="flex-row button-bar" *ngIf="showButtons">
             <button mat-stroked-button routerLink="/exif-edit">Edit</button>
             <button mat-stroked-button color="warn" (click)="deleteImg()">Delete</button>
         </div>

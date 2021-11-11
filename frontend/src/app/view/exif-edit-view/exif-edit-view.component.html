@@ -1,0 +1,64 @@
+<div class="flex-container full-width full-height">
+    <image [imageName]="imageName" [imageUrl]="imageUrl" [showButtons]="false"> </image>
+    <form class="flex-container flex-stretch" [formGroup]="form" (ngSubmit)="save(form.value)">
+        <mat-tab-group
+            class="mat-tab-stretch mat-tab-center"
+            mat-align-tabs="center"
+            (selectedTabChange)="selectedTabChange($event)"
+        >
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="tab-icon">insert_drive_file</mat-icon>
+                    File
+                </ng-template>
+                <div class="flex-container">
+                    <mat-card>
+                        <div class="flex-container">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Name</mat-label>
+                                <input matInput formControlName="name" placeholder="Name with extension" />
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input
+                                    matInput
+                                    [ngxMatDatetimePicker]="picker"
+                                    formControlName="dateTime"
+                                    placeholder="Date and time"
+                                />
+                                <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+                                <ngx-mat-datetime-picker #picker> </ngx-mat-datetime-picker>
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
+                </div>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="tab-icon">camera_alt</mat-icon>
+                    Camera
+                </ng-template>
+                Content 2
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="tab-icon">supervised_user_circle</mat-icon>
+                    Author
+                </ng-template>
+                Content 3
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="tab-icon">map</mat-icon>
+                    Location
+                </ng-template>
+                <leaflet-map #map> </leaflet-map>
+            </mat-tab>
+        </mat-tab-group>
+        <div class="flex-row button-bar">
+            <button mat-stroked-button type="submit">Download</button>
+            <button mat-stroked-button type="button" color="warn" routerLink="../">Cancel</button>
+        </div>
+    </form>
+</div>
