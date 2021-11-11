@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { MapOptions, tileLayer, Map, latLng } from 'leaflet';
 
 @Component({
@@ -6,7 +6,7 @@ import { MapOptions, tileLayer, Map, latLng } from 'leaflet';
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnDestroy {
+export class MapComponent {
     options: MapOptions = {
         layers: [
             tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -19,11 +19,6 @@ export class MapComponent implements OnDestroy {
         center: latLng(0, 0),
     };
     map!: Map;
-
-    ngOnDestroy(): void {
-        this.map.clearAllEventListeners;
-        this.map.remove();
-    }
 
     onMapReady(map: Map): void {
         this.map = map;

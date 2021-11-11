@@ -38,6 +38,10 @@ export class ImageService {
         this.url.next('');
     }
 
+    get isImageLoaded(): boolean {
+        return !!this.image.getValue() && !!this.url.getValue();
+    }
+
     private readUrl(file: File) {
         const reader = new FileReader();
         reader.onload = (event) => {

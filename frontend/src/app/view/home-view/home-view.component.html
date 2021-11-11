@@ -13,16 +13,7 @@
         </div>
     </div>
     <ng-template #imageSelected>
-        <div class="flex-container flex-stretch img-container">
-            <img [src]="imageUrl" />
-            <div class="img-name">
-                <label>{{ image?.name }}</label>
-            </div>
-            <div id="img-button-bar" class="flex-row">
-                <button mat-raised-button color="primary" (click)="editExif()">Edit</button>
-                <button mat-raised-button color="warn" (click)="deleteImg()">Delete</button>
-            </div>
-        </div>
+        <image [imageName]="imageName" [imageUrl]="imageUrl"> </image>
     </ng-template>
     <file-upload></file-upload>
 </div>

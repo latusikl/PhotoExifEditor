@@ -1,0 +1,28 @@
+.img-container {
+    align-items: center;
+    justify-content: center;
+    align-content: space-between;
+    padding: 1em 3em;
+
+    img {
+        margin-bottom: 0.5em;
+        &:hover {
+            filter: brightness(110%);
+            transform: scale(1.01);
+            transition: all 0.3s ease-in-out;
+        }
+    }
+}
+
+#img-name {
+    text-align: center;
+}
+
+#img-card {
+    padding: 1em .5em;
+}
+
+#img-button-bar > * {
+    margin: .5em;
+}
+

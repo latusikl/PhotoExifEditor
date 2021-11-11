@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExifModalComponent } from './exif-modal.component';
+import { ImageComponent } from './image.component';
 
-describe('ExifModalComponent', () => {
-    let component: ExifModalComponent;
-    let fixture: ComponentFixture<ExifModalComponent>;
+describe('ImageComponent', () => {
+    let component: ImageComponent;
+    let fixture: ComponentFixture<ImageComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ExifModalComponent],
+            declarations: [ImageComponent],
         }).compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ExifModalComponent);
+        fixture = TestBed.createComponent(ImageComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
