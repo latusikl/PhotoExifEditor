@@ -23,10 +23,6 @@ $title-part2-color: #9e9e9e;
     flex-grow: 2;
 }
 
-#img-button-bar > * {
-    margin: .5em;
-}
-
 #jumbotron {
     h1 {
         font-size: 3rem;
@@ -42,21 +38,3 @@ $title-part2-color: #9e9e9e;
         width: 100%;
     }
 }
-
-.img-container {
-    align-items: center;
-    justify-content: center;
-    align-content: space-between;
-    padding: 3em;
-
-    > img {
-        margin-bottom: 0.5em;
-        &:hover {
-            filter: brightness(110%);
-            transform: scale(1.01);
-            transition: all 0.3s ease-in-out;
-        }
-    }
-}
-
-

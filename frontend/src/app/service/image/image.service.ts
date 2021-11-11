@@ -38,6 +38,19 @@ export class ImageService {
         this.url.next('');
     }
 
+    downloadImage(img: Blob, fileName: string): void {
+        const a = document.createElement('a');
+        a.href = window.URL.createObjectURL(img);
+        a.setAttribute('download', fileName);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+
+    get isImageLoaded(): boolean {
+        return !!this.image.getValue() && !!this.url.getValue();
+    }
+
     private readUrl(file: File) {
         const reader = new FileReader();
         reader.onload = (event) => {

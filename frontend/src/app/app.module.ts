@@ -15,6 +15,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpErrorInterceptor } from './interceptor/http-error.interceptor';
+import { ComponentModule } from './component/component.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { HttpErrorInterceptor } from './interceptor/http-error.interceptor';
             timeOut: 5000,
             positionClass: 'toast-bottom-right',
         }),
+        ComponentModule,
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }],
     bootstrap: [AppComponent],

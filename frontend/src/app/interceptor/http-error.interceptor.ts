@@ -7,13 +7,38 @@ import { ToastService } from '../service/toast.service';
 @Injectable({ providedIn: 'root' })
 export class HttpErrorInterceptor implements HttpInterceptor {
     constructor(private toastService: ToastService) {}
-    intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-        return next.handle(request).pipe(
-            catchError((error: HttpErrorResponse) => {
-                const errorMessage = error.error instanceof ErrorEvent ? error.error.message : error.message;
-                this.toastService.open(errorMessage, 'error');
-                return throwError(errorMessage);
-            }),
-        );
+
+    // issue from 2017, still not resolved https://github.com/angular/angular/issues/19148
+    intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+        return next
+            .handle(req)
+            .pipe(catchError((err) => (this.isBlobError(err) ? this.parseErrorBlob(err) : this.handleError(err))));
+    }
+
+    handleError(error: HttpErrorResponse): Observable<never> {
+        const msg = error.error.message ?? error.error.error?.message;
+        this.toastService.open(msg, 'error');
+        return throwError(error);
+    }
+
+    isBlobError(err: unknown): boolean {
+        return err instanceof HttpErrorResponse && err.error instanceof Blob && err.error.type === 'application/json';
+    }
+
+    parseErrorBlob(err: HttpErrorResponse): Observable<never> {
+        const reader: FileReader = new FileReader();
+        const obs = new Observable<never>((observer) => {
+            reader.onloadend = (_) => {
+                const newError = new HttpErrorResponse({
+                    ...err,
+                    error: JSON.parse(reader.result as string),
+                } as any);
+                this.handleError(newError);
+                observer.error(newError);
+                observer.complete();
+            };
+        });
+        reader.readAsText(err.error);
+        return obs;
     }
 }

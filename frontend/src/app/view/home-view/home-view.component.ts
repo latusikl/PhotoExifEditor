@@ -1,25 +1,23 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { ExifModalComponent } from 'src/app/component/exif-modal/exif-modal.component';
 import { ImageService } from 'src/app/service/image/image.service';
 
 @Component({
-    selector: 'app-home-view',
+    selector: 'home-view',
     templateUrl: './home-view.component.html',
     styleUrls: ['./home-view.component.scss'],
 })
 export class HomeViewComponent implements OnInit, OnDestroy {
-    @HostBinding('class')
-    class = 'view';
-
     image!: File | undefined;
     imageUrl!: string;
+
+    @HostBinding('class')
+    private class = 'view';
 
     private imageSub = Subscription.EMPTY;
     private imgUrlSub = Subscription.EMPTY;
 
-    constructor(private imageService: ImageService, private dialog: MatDialog) {}
+    constructor(private imageService: ImageService) {}
 
     ngOnInit(): void {
         this.imageSub = this.imageService.image.subscribe((img) => {
@@ -35,20 +33,7 @@ export class HomeViewComponent implements OnInit, OnDestroy {
         this.imgUrlSub.unsubscribe();
     }
 
-    deleteImg(): void {
-        this.imageService.deleteImage();
-    }
-
-    editExif(): void {
-        this.dialog
-            .open(ExifModalComponent, { disableClose: true })
-            .afterClosed()
-            .subscribe((result) => this.afterEditClosed(result));
-    }
-
-    private afterEditClosed(result: boolean): void {
-        if (result) {
-            console.log('udalo sei');
-        }
+    get imageName(): string {
+        return this.image?.name ?? '';
     }
 }
