@@ -1,7 +1,7 @@
 <div class="flex-container flex-stretch img-container">
     <mat-card id="img-card" class="flex-container">
         <div id="img-name">
-            <label>{{ imageName }}</label>
+            <label matTooltipPosition="left" [matTooltip]="imageName">{{ imageName }}</label>
         </div>
         <img [src]="imageUrl" />
         <div class="flex-row button-bar" *ngIf="showButtons">

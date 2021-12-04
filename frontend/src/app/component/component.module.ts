@@ -9,10 +9,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [FileUploadComponent, MapComponent, ImageComponent],
-    imports: [CommonModule, LeafletModule, MatCardModule, MatButtonModule, RouterModule, MatTabsModule, MatIconModule],
+    imports: [
+        CommonModule,
+        LeafletModule,
+        MatCardModule,
+        MatButtonModule,
+        RouterModule,
+        MatTabsModule,
+        MatIconModule,
+        MatTooltipModule,
+    ],
     exports: [FileUploadComponent, ImageComponent, MapComponent],
 })
 export class ComponentModule {}
