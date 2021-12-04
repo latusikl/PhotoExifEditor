@@ -29,14 +29,6 @@ $title-part2-color: #9E9E9E;
     flex: 1 1 auto;
 }
 
-.app-container {
-    height: calc(100% - #{$navbar_size});
-    align-items: center;
-    @media only screen and (max-width: 600px) {
-        height: calc(100% - #{$mobile_navbar_size});
-    }
-}
-
 .title {
     position: relative;
     height: 50px;
@@ -91,10 +83,14 @@ $title-part2-color: #9E9E9E;
 
 .main-content {
     display: flex;
-    height: 100%;
     align-items: center;
     justify-content: center;
     overflow-y: hidden;
+    height: calc(100% - #{$navbar_size});
+    align-items: center;
+    @media only screen and (max-width: 600px) {
+        height: calc(100% - #{$mobile_navbar_size});
+    }
 }
 
 #hamburger {
