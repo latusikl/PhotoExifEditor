@@ -6,12 +6,17 @@ import { ToastService } from '../toast.service';
     providedIn: 'root',
 })
 export class ImageService {
+    private static FILE_SIZE_LIMIT = 50 * 1024 * 1024; // 50MiB limit
     image = new BehaviorSubject<File | undefined>(undefined);
     url = new BehaviorSubject<string>('');
 
     constructor(private toastService: ToastService) {}
 
     checkFile(file: File): void {
+        if (file.size > ImageService.FILE_SIZE_LIMIT) {
+            this.showTooBigImageError(file);
+            return;
+        }
         const filereader = new FileReader();
         filereader.onloadend = (event) => {
             if (!!event.target && event.target.readyState === FileReader.DONE) {
@@ -21,11 +26,11 @@ export class ImageService {
                     bytes.push(byte.toString(16));
                 });
                 const hex = bytes.join('').toUpperCase();
-                if (hex === 'FFD8FFE0' || hex === 'FFD8FFDB') {
+                if (hex === 'FFD8FFE0' || hex === 'FFD8FFDB' || hex === 'FFD8FFE1') {
                     // image/jpeg
                     this.selectImage(file);
                 } else {
-                    this.showError(file);
+                    this.showInvalidImageError(file);
                 }
             }
         };
@@ -66,8 +71,15 @@ export class ImageService {
         this.readUrl(img);
     }
 
-    private showError(img: File): void {
-        const msg = 'Invalid image with name ' + img.name;
+    private showInvalidImageError(img: File): void {
+        this.showError('Invalid image with name ' + img.name);
+    }
+
+    private showTooBigImageError(img: File): void {
+        this.showError('Image ' + img.name + ' is too large. The file size can not exceed 50MiB.');
+    }
+
+    private showError(msg: string): void {
         this.toastService.open(msg, 'error');
     }
 }
