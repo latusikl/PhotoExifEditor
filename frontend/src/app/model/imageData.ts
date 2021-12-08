@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { TagValues } from './piexif-types/constants';
-import { IExif } from './piexif-types/interfaces';
+import { ExifFieldNames, IExif, IExifElement } from './piexif-types/interfaces';
 
 dayjs.extend(customParseFormat);
 
@@ -14,35 +14,45 @@ export class ImageData {
     constructor(public name: string, public exifData: IExif) {}
 
     private getImageAttribute0(imageTag: ImageTag): TagValue {
-        const imageData = (this.exifData['0th'] = this.exifData['0th'] ?? {});
+        const imageData = this.getExifElement('0th');
         return imageData[TagValues.ImageIFD[imageTag]];
     }
 
     private setImageAttribute0(imageTag: ImageTag, value: TagValue): void {
         if (!!value) {
-            const imageData = (this.exifData['0th'] = this.exifData['0th'] ?? {});
+            const imageData = this.getExifElement('0th');
             imageData[TagValues.ImageIFD[imageTag]] = value;
         }
     }
 
     private getImageAttribute1(exifTag: ImageTag): TagValue {
-        const imageData = (this.exifData['1st'] = this.exifData['1st'] ?? {});
+        const imageData = this.getExifElement('1st');
         return imageData[TagValues.ImageIFD[exifTag]];
     }
 
     private setImageAttribute1(imageTag: ImageTag, value: TagValue): void {
         if (!!value) {
-            const imageData = (this.exifData['1st'] = this.exifData['1st'] ?? {});
+            const imageData = this.getExifElement('1st');
             imageData[TagValues.ImageIFD[imageTag]] = value;
         }
     }
 
+    private getExifElement(key?: ExifFieldNames): IExifElement {
+        switch (key) {
+            case '1st':
+                return (this.exifData['1st'] = this.exifData['1st'] ?? {});
+            case '0th':
+                return (this.exifData['0th'] = this.exifData['0th'] ?? {});
+            default:
+                return (this.exifData.Exif = this.exifData.Exif ?? {});
+        }
+    }
+
     private getExifAttribute(exifTag: ExifTag): TagValue {
-        const exifData = (this.exifData.Exif = this.exifData.Exif ?? {});
+        const exifData = this.getExifElement();
         return exifData[TagValues.ExifIFD[exifTag]];
     }
 
-    // eslint-disable-next-line
     private setExifAttribute(exifTag: ExifTag, value: TagValue): void {
         if (!!value) {
             const exif = (this.exifData.Exif = this.exifData.Exif ?? {});

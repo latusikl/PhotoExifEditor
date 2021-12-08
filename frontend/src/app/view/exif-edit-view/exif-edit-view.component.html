@@ -53,7 +53,7 @@
                     <mat-icon class="tab-icon">map</mat-icon>
                     Location
                 </ng-template>
-                <leaflet-map #map> </leaflet-map>
+                <leaflet-map #map [gpsCoordinates]="gpsCoordinates"> </leaflet-map>
             </mat-tab>
         </mat-tab-group>
         <div class="flex-row button-bar">
