@@ -2,8 +2,11 @@ import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
+import { LatLng } from 'leaflet';
 import { MapComponent } from 'src/app/component/map/map.component';
 import { ExifFormData } from 'src/app/model/exifFormData';
+import { IExifElement } from 'src/app/model/piexif-types/interfaces';
+import { CoordinatesService } from 'src/app/service/coordinates.service';
 import { ToastService } from 'src/app/service/toast.service';
 import { ImageData } from '../../model/imageData';
 import { ExifService } from '../../service/exif/exif.service';
@@ -18,6 +21,7 @@ export class ExifEditViewComponent implements OnInit {
     imgData!: ImageData;
     imageUrl!: string;
     imageName!: string;
+    gpsCoordinates!: LatLng;
 
     form: FormGroup;
 
@@ -31,6 +35,7 @@ export class ExifEditViewComponent implements OnInit {
         private exifService: ExifService,
         private imageService: ImageService,
         private toastService: ToastService,
+        private coordinatesService: CoordinatesService,
         private router: Router,
     ) {
         this.form = new FormGroup({
@@ -44,8 +49,18 @@ export class ExifEditViewComponent implements OnInit {
         this.imageName = this.imageService.image.getValue()?.name ?? '';
         this.exifService.getExif(this.imageUrl, this.imageName).subscribe((imgData) => {
             this.imgData = imgData;
+            if (imgData.isGpsDataDefined) {
+                this.gpsCoordinates = this.coordinatesService.calculateCoordinates(
+                    imgData.exifData.GPS as IExifElement,
+                );
+            }
             this.initForm();
         });
+    }
+
+    generateGpsTemplate(): void {
+        this.imgData.exifData.GPS = this.coordinatesService.generateGpsTemplate();
+        this.gpsCoordinates = this.coordinatesService.calculateCoordinates(this.imgData.exifData.GPS as IExifElement);
     }
 
     selectedTabChange(event: MatTabChangeEvent): void {
@@ -74,6 +89,16 @@ export class ExifEditViewComponent implements OnInit {
 
     private patchExif(formData: ExifFormData): void {
         this.imgData.dateTimeOriginal = formData.dateTime;
+        if (!!this.imgData.isGpsDataDefined) {
+            this.coordinatesService.calculateExifGPSLongitude(
+                this.imgData.exifData.GPS as IExifElement,
+                this.gpsCoordinates,
+            );
+            this.coordinatesService.calculateExifGPSLatitude(
+                this.imgData.exifData.GPS as IExifElement,
+                this.gpsCoordinates,
+            );
+        }
         // TODO more exif data
     }
 }

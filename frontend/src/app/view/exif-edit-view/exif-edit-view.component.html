@@ -53,7 +53,11 @@
                     <mat-icon class="tab-icon">map</mat-icon>
                     Location
                 </ng-template>
-                <leaflet-map #map> </leaflet-map>
+                <div *ngIf="!imgData?.isGpsDataDefined" id="create-gps-container" class="flex-row">
+                    <div>No coordinates provided for image. Do you want to create GPS data?</div>
+                    <button mat-stroked-button (click)="generateGpsTemplate()">Create</button>
+                </div>
+                <leaflet-map class="flex-stretch" #map [(gpsCoordinates)]="gpsCoordinates"> </leaflet-map>
             </mat-tab>
         </mat-tab-group>
         <div class="flex-row button-bar">

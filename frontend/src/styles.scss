@@ -66,11 +66,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.map-component {
-    min-height: 100%;
-    min-width: 100%;
+    flex-direction: column;
 }
 
 .light-theme .button-bar {
