@@ -1,3 +1,12 @@
+#create-gps-container {
+    justify-content: center;
+    align-items: center;
+    padding: .5em 0;
+    > button {
+        margin-left: .5em;
+    }
+}
+
 .tab-icon {
     margin-right: .25em;
 }

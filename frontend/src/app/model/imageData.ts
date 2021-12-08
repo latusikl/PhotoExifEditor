@@ -125,4 +125,8 @@ export class ImageData {
     set imageOrientation(orientation: number) {
         this.setImageAttribute1('Orientation', orientation);
     }
+
+    get isGpsDataDefined(): boolean {
+        return !!this.exifData.GPS && Object.keys(this.exifData.GPS).length > 0;
+    }
 }
