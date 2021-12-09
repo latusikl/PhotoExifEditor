@@ -19,6 +19,7 @@ export class MapComponent {
             tileLayer(LeafletUtils.OSM_TEMPLATE, {
                 opacity: 0.7,
                 maxZoom: 19,
+                minZoom: 2,
                 attribution: LeafletUtils.OSM_ATTR,
             }),
         ],
@@ -58,6 +59,10 @@ export class MapComponent {
         this.mapReady.next(true);
     }
 
+    centerAtMarker(): void {
+        this.map.panTo(this.latLng).fitBounds(this.latLng.toBounds(2000));
+    }
+
     @HostListener('window:resize')
     invalidateSize(): void {
         this.map.invalidateSize();
@@ -85,6 +90,7 @@ export class MapComponent {
                 delay(1000),
             )
             .subscribe(() => {
+                this.centerAtMarker();
                 this.markers[0].togglePopup();
             });
     }
