@@ -6,5 +6,4 @@ TODO:
     - sekcja author
 - przycisk do czysszczenia metaddanych - DS
 - szybki test wydajnościowy - LŁ
-- obsługa mapy, zapis danych z mapy
 - deploy - LŁ
