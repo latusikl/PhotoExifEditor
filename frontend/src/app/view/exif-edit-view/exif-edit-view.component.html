@@ -4,7 +4,7 @@
         <mat-tab-group
             class="mat-tab-stretch mat-tab-center"
             mat-align-tabs="center"
-            (selectedTabChange)="selectedTabChange($event)"
+            (selectedIndexChange)="selectedTabChange($event)"
         >
             <mat-tab>
                 <ng-template mat-tab-label>
@@ -61,6 +61,15 @@
             </mat-tab>
         </mat-tab-group>
         <div class="flex-row button-bar">
+            <button
+                *ngIf="centerButtonVisible"
+                color="primary"
+                type="button"
+                (click)="map.centerAtMarker()"
+                mat-stroked-button
+            >
+                Center on GPS location
+            </button>
             <button mat-stroked-button type="submit">Download</button>
             <button mat-stroked-button type="button" color="warn" routerLink="../">Cancel</button>
         </div>

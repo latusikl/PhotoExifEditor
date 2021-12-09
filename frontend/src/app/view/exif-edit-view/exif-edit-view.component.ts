@@ -3,14 +3,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { LatLng } from 'leaflet';
-import { MapComponent } from 'src/app/component/map/map.component';
-import { ExifFormData } from 'src/app/model/exifFormData';
-import { IExifElement } from 'src/app/model/piexif-types/interfaces';
-import { CoordinatesService } from 'src/app/service/coordinates.service';
-import { ToastService } from 'src/app/service/toast.service';
+import { MapComponent } from '../../component/map/map.component';
+import { ExifFormData } from '../../model/exifFormData';
+import { CoordinatesService } from '../../service/coordinates.service';
+import { ToastService } from '../../service/toast.service';
 import { ImageData } from '../../model/imageData';
 import { ExifService } from '../../service/exif/exif.service';
 import { ImageService } from '../../service/image/image.service';
+import { IExifElement } from '../../model/piexif-types/interfaces';
 
 @Component({
     selector: 'exif-edit-view',
@@ -24,6 +24,7 @@ export class ExifEditViewComponent implements OnInit {
     gpsCoordinates!: LatLng;
 
     form: FormGroup;
+    tabIndex = 0;
 
     @HostBinding('class')
     private class = 'view';
@@ -42,6 +43,14 @@ export class ExifEditViewComponent implements OnInit {
             name: new FormControl('', [Validators.required]),
             dateTime: new FormControl(''),
         });
+    }
+
+    get centerButtonVisible(): boolean {
+        return this.tabIndex === 3 && !!this.imgData?.isGpsDataDefined;
+    }
+
+    get isMapTabSelected(): boolean {
+        return this.tabIndex === 3;
     }
 
     ngOnInit(): void {
@@ -63,9 +72,10 @@ export class ExifEditViewComponent implements OnInit {
         this.gpsCoordinates = this.coordinatesService.calculateCoordinates(this.imgData.exifData.GPS as IExifElement);
     }
 
-    selectedTabChange(event: MatTabChangeEvent): void {
-        if (event.index === 3) {
-            this.mapComponent.invalidateSize();
+    selectedTabChange(tabIndex: number): void {
+        this.tabIndex = tabIndex;
+        if (this.isMapTabSelected) {
+            setTimeout(() => this.mapComponent.invalidateSize());
         }
     }
 
