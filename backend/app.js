@@ -6,13 +6,13 @@ const fsPromises = fs.promises;
 const {v4} = require('uuid');
 
 const app = express();
-const port = 3000;
+const port = process.env.SERVER_PORT || 3000;
 
 app.use(express.json({limit: '50mb'}));
 
 app.use(cors());
 
-app.post('/getExif', (req, res) => {
+app.post('/exif/read', (req, res) => {
   const img = req.body?.imgUrl;
   if (!!img && img.includes('image/jpeg')) {
     try {
@@ -26,7 +26,7 @@ app.post('/getExif', (req, res) => {
   res.status(400).send({message: 'Invalid image'});
 });
 
-app.post('/saveExif', async (req, res) => {
+app.post('/exif/write', async (req, res) => {
   const {imgUrl, exifData, name} = req.body;
   if (!!imgUrl && imgUrl.includes('image/jpeg')) {
     try {
@@ -53,5 +53,5 @@ app.post('/saveExif', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Exif editor api started at http://localhost:${port}`);
+  console.log(`Server started on port: ${port}`);
 });
