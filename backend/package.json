@@ -1,17 +1,46 @@
 {
-  "name": "exifeditor",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "photo-exif-editor",
+  "repository": "https://github.com/latusikl/PhotoExifEditor",
+  "version": "0.0.1",
+  "description": "Application that allows You to edit EXIF metadata of JPG picture.",
+  "main": "app.js",
+  "keywords": [
+    "exif",
+    "jpg",
+    "edit",
+    "map"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon",
+    "lint-fix": "eslint . --fix",
+    "lint": "eslint"
   },
-  "author": "",
-  "license": "ISC",
+  "contributors": [
+    {
+      "name": "Krzysztof Ból",
+      "url": "https://github.com/syphzur"
+    },
+    {
+      "name": "Łukasz Latusik",
+      "url": "https://github.com/latusikl"
+    },
+    {
+      "name": "Dawid Suchy",
+      "url": "https://github.com/Suchar230"
+    }
+  ],
+  "license": "Apache-2.0",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "piexifjs": "^1.0.6",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.4.1",
+    "eslint-config-google": "^0.14.0",
+    "nodemon": "^2.0.15"
   }
 }
