@@ -52,6 +52,10 @@ app.post('/exif/write', async (req, res) => {
   res.status(400).send({message: 'Invalid data'});
 });
 
+app.get('/test' (req,res) => {
+    res.status(200).json("App healthy");
+})
+
 app.listen(port, () => {
   console.log(`Server started on port: ${port}`);
 });
