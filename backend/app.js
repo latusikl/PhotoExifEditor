@@ -6,7 +6,7 @@ const fsPromises = fs.promises;
 const {v4} = require('uuid');
 
 const app = express();
-const port = process.env.SERVER_PORT || 3000;
+const port = process.env.PORT || 3000;
 
 app.use(express.json({limit: '50mb'}));
 
@@ -52,7 +52,7 @@ app.post('/exif/write', async (req, res) => {
   res.status(400).send({message: 'Invalid data'});
 });
 
-app.get('/test' (req,res) => {
+app.get('/test', (req,res) => {
     res.status(200).json("App healthy");
 })
 
