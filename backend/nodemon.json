@@ -1,0 +1,6 @@
+{
+  "verbose": true,
+  "ignore": [".git", ".gitignore", ".eslintignore",".eslintrs.json" ,"node_modules/*"],
+  "ext": "json,js",
+  "delay": 2
+}
