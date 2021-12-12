@@ -1,9 +1,9 @@
-const express = require("express");
-const cors = require("cors");
-const piexif = require("piexifjs");
-const fs = require("fs");
+const express = require('express');
+const cors = require('cors');
+const piexif = require('piexifjs');
+const fs = require('fs');
 const fsPromises = fs.promises;
-const { v4 } = require("uuid");
+const {v4} = require('uuid');
 
 const app = express();
 const port = 3000;
@@ -12,44 +12,44 @@ app.use(express.json({limit: '50mb'}));
 
 app.use(cors());
 
-app.post("/getExif", (req, res) => {
+app.post('/getExif', (req, res) => {
   const img = req.body?.imgUrl;
-  if (!!img && img.includes("image/jpeg")) {
+  if (!!img && img.includes('image/jpeg')) {
     try {
       const exif = piexif.load(img);
       res.send(exif);
     } catch (e) {
-      res.status(400).send({ message: e.message });
+      res.status(400).send({message: e.message});
     }
     return;
   }
-  res.status(400).send({ message: "Invalid image" });
+  res.status(400).send({message: 'Invalid image'});
 });
 
-app.post("/saveExif", async (req, res) => {
-  const { imgUrl, exifData, name } = req.body;
-  if (!!imgUrl && imgUrl.includes("image/jpeg")) {
+app.post('/saveExif', async (req, res) => {
+  const {imgUrl, exifData, name} = req.body;
+  if (!!imgUrl && imgUrl.includes('image/jpeg')) {
     try {
       const newExifBinary = piexif.dump(exifData);
       const imageBinaryWithoutExif = piexif.remove(imgUrl);
       const newBinaryImage = piexif.insert(
-        newExifBinary,
-        imageBinaryWithoutExif
+          newExifBinary,
+          imageBinaryWithoutExif,
       );
       const imgUuid = v4();
       await fsPromises.mkdir(imgUuid);
       const path = `./${imgUuid}/${name}`;
-      const base64 = newBinaryImage.replace(/^data:([A-Za-z-+/]+);base64,/, "");
-      await fsPromises.writeFile(path, base64, "base64");
-      res.sendFile(path, { root: __dirname }, () =>
-        fs.rmdirSync(imgUuid, { recursive: true, force: true })
+      const base64 = newBinaryImage.replace(/^data:([A-Za-z-+/]+);base64,/, '');
+      await fsPromises.writeFile(path, base64, 'base64');
+      res.sendFile(path, {root: __dirname}, () =>
+        fs.rmdirSync(imgUuid, {recursive: true, force: true}),
       );
     } catch (e) {
-      res.status(400).send({ message: e.message });
+      res.status(400).send({message: e.message});
     }
     return;
   }
-  res.status(400).send({ message: "Invalid data" });
+  res.status(400).send({message: 'Invalid data'});
 });
 
 app.listen(port, () => {
