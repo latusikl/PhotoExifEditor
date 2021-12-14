@@ -17,7 +17,7 @@ export default () => {
                 const exif = readImage(img);
                 res.status(200).json(exif);
             } catch (e) {
-                res.status(400).send({message: e.message});
+                res.status(400).json({message: e.message});
             }
         }
         res.status(400).json({message: 'Invalid image'});
@@ -27,16 +27,16 @@ export default () => {
         const {imgUrl: img, exifData, name} = req.body;
         if (isImageOk(img)) {
             try {
-               const { path, imgUuid} = await writeImageExif(exifData,img, name);
+                const {path, imgUuid} = await writeImageExif(exifData, img, name);
                 res.sendFile(path, {root: __dirname}, () =>
                     fs.rmdirSync(imgUuid, {recursive: true, force: true}),
                 );
             } catch (e) {
-                res.status(400).send({message: e.message});
+                res.status(400).json({message: e.message});
             }
             return;
         }
-        res.status(400).send({message: 'Invalid data'});
+        res.status(400).json({message: 'Invalid data'});
     });
 
     return router;
