@@ -3,7 +3,8 @@
   "repository": "https://github.com/latusikl/PhotoExifEditor",
   "version": "0.0.1",
   "description": "Application that allows You to edit EXIF metadata of JPG picture.",
-  "main": "app.js",
+  "main": "src/main.js",
+  "type": "module",
   "keywords": [
     "exif",
     "jpg",
@@ -12,8 +13,8 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "node src/main.js",
+    "dev": "nodemon src/main.js",
     "lint-fix": "eslint . --fix",
     "lint": "eslint"
   },
