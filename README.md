@@ -6,4 +6,5 @@ TODO:
     - sekcja author
 - przycisk do czysszczenia metaddanych - DS
 - szybki test wydajnościowy - LŁ
+
 - deploy - LŁ
