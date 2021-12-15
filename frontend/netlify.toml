@@ -1,2 +1,2 @@
 [build]
-  ignore = /bin/false
+  ignore = "/bin/false"
