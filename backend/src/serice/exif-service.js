@@ -1,5 +1,7 @@
 import piexif from "piexifjs"
 import {v4} from "uuid";
+import fs from "fs";
+const fsPromises = fs.promises;
 
 export function isImageOk(img){
     return !!img && img.includes('image/jpeg');

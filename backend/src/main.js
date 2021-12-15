@@ -10,14 +10,16 @@ app.use(express.json({limit: jsonSizeLimit}));
 app.use(cors());
 
 app.use('/exif', ExifController() );
-app.all('*', (req,res) => res.sendStatus(400))
+
 
 
 app.get('/health', (req, res) => {
-  res.status(200).json({
+  return res.status(200).json({
     listening: server.listening
   });
 });
+
+app.all('*', (req,res) => res.sendStatus(400))
 
 const server = app.listen(port, () => {
   console.log(`Server started on port: ${port}`);
