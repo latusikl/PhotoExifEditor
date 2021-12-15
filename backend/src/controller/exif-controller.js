@@ -1,6 +1,10 @@
 import * as fs from "fs";
 import express from "express";
 import {isImageOk, readImage, writeImageExif} from "../serice/exif-service.js";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default () => {
     const router = express.Router({
