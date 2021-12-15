@@ -1,10 +1,7 @@
 import * as fs from "fs";
 import express from "express";
-import {isImageOk, readImage, writeImageExif} from "../serice/exif-service.js";
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import {isImageOk, readImage, writeImageExif} from "../service/exif-service.js";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default () => {
     const router = express.Router({
@@ -28,8 +25,8 @@ export default () => {
         const {imgUrl: img, exifData, name} = req.body;
         if (isImageOk(img)) {
             try {
-                const {path, imgUuid} = await writeImageExif(exifData, img, name);
-                return res.sendFile(path, {root: __dirname}, () =>
+                const {pathValue, imgUuid} = await writeImageExif(exifData, img, name);
+                return res.sendFile(pathValue, () =>
                     fs.rmdirSync(imgUuid, {recursive: true, force: true}),
                 );
             } catch (e) {
