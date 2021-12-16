@@ -3,10 +3,7 @@ import {v4} from "uuid";
 import fs from "fs";
 import * as path from "path";
 
-
 const fsPromises = fs.promises;
-
-
 
 export function isImageOk(img){
     return !!img && img.includes('image/jpeg');
