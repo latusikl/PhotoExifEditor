@@ -6,5 +6,5 @@ TODO:
     - sekcja author
 - przycisk do czysszczenia metaddanych - DS
 - szybki test wydajnościowy - LŁ
-- ogarnięcie stylowania na urządzeniach mobilnych
+- ogarnięcie responsywności html i body
 - dodanie spinnera
