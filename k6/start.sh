@@ -16,7 +16,7 @@ run_tests(){
   done
 }
 
-files=(load-page-stress.js read-exif-stress.js exit.stress.js scenarion.stress.js)
+files=(load-page.js read-exif.js write-exif.js full-scenario.js)
 
 if [ "$1" == "local" ]
 then
