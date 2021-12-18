@@ -1,0 +1,19 @@
+{
+  "name": "k6-types",
+  "version": "1.0.0",
+  "description": "K6 Types provider",
+  "main": "script.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/k6": "^0.35.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
