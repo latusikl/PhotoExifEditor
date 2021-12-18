@@ -5,6 +5,5 @@ TODO:
     - sekcja camera
     - sekcja author
 - przycisk do czysszczenia metaddanych - DS
-- szybki test wydajnościowy - LŁ
 - ogarnięcie responsywności html i body
 - dodanie spinnera
