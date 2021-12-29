@@ -113,5 +113,4 @@ export class ExifEditViewComponent implements OnInit {
         }
         // TODO more exif data
     }
-
 }

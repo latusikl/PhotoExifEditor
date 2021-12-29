@@ -1,8 +1,8 @@
 $navbar_size: 64px;
 $mobile_navbar_size: 56px;
 $dir_select_icon_size: 30px;
-$title-part1-color: #E0E0E0;
-$title-part2-color: #9E9E9E;
+$title-part1-color: #e0e0e0;
+$title-part2-color: #9e9e9e;
 
 #settings-button {
     margin-top: auto;
@@ -41,7 +41,7 @@ $title-part2-color: #9E9E9E;
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: all .5s ease-in-out;
+        transition: all 0.5s ease-in-out;
     }
 
     &:hover {
@@ -50,7 +50,7 @@ $title-part2-color: #9E9E9E;
             right: 1.25em;
             color: $title-part2-color;
         }
-    
+
         .title-part-2 {
             top: 0;
             left: 1em;
@@ -59,13 +59,13 @@ $title-part2-color: #9E9E9E;
     }
 
     .title-part-1 {
-        bottom: .5em;
+        bottom: 0.5em;
         right: 0;
         color: $title-part1-color;
     }
 
     .title-part-2 {
-        top: .25em;
+        top: 0.25em;
         left: 1em;
         color: $title-part2-color;
     }
@@ -98,5 +98,5 @@ $title-part2-color: #9E9E9E;
 }
 
 .dark-mode-icon {
-    margin-right: .25em;
+    margin-right: 0.25em;
 }
