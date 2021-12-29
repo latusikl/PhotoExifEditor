@@ -1,16 +1,19 @@
 #create-gps-container {
     justify-content: center;
     align-items: center;
-    padding: 0.5em 0;
+    padding: .5em 0;
     > button {
-        margin-left: 0.5em;
+        margin-left: .5em;
     }
 }
 
 .tab-icon {
-    margin-right: 0.25em;
+    margin-right: .25em;
 }
 
-.loading-card {
+.loading-card{
     width: 30em;
 }
+
+
+

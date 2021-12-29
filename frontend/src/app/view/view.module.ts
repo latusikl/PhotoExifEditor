@@ -17,7 +17,7 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 
 @NgModule({
     declarations: [HomeViewComponent, ExifEditViewComponent],
@@ -36,7 +36,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
         NgxMatNativeDateModule,
         NgxMatTimepickerModule,
         MatDatepickerModule,
-        NgxSkeletonLoaderModule,
+        NgxSkeletonLoaderModule
     ],
 })
 export class ViewModule {}
