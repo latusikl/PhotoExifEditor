@@ -1,10 +1,10 @@
 <div class="flex-container full-width full-height">
-    <image [imageName]="imageName" [imageUrl]="imageUrl" [showButtons]="false"> </image>
+    <image [imageName]="imageName" [imageUrl]="imageUrl" [showButtons]="false"></image>
     <form class="flex-container flex-stretch" [formGroup]="form" (ngSubmit)="save(form.value)">
         <mat-tab-group
-            class="mat-tab-stretch mat-tab-center"
-            mat-align-tabs="center"
-            (selectedIndexChange)="selectedTabChange($event)"
+                class="mat-tab-stretch mat-tab-center"
+                mat-align-tabs="center"
+                (selectedIndexChange)="selectedTabChange($event)"
         >
             <mat-tab>
                 <ng-template mat-tab-label>
@@ -12,21 +12,24 @@
                     File
                 </ng-template>
                 <div class="flex-container">
-                    <mat-card>
+                    <mat-card class="loading-card" *ngIf="!isDataLoaded">
+                        <ngx-skeleton-loader animation="pulse" count="8" appearance="line"></ngx-skeleton-loader>
+                    </mat-card>
+                    <mat-card *ngIf="isDataLoaded">
                         <div class="flex-container">
                             <mat-form-field appearance="fill">
                                 <mat-label>Name</mat-label>
-                                <input matInput formControlName="name" placeholder="Name with extension" />
+                                <input matInput formControlName="name" placeholder="Name with extension"/>
                             </mat-form-field>
                             <mat-form-field>
                                 <input
-                                    matInput
-                                    [ngxMatDatetimePicker]="picker"
-                                    formControlName="dateTime"
-                                    placeholder="Date and time"
+                                        matInput
+                                        [ngxMatDatetimePicker]="picker"
+                                        formControlName="dateTime"
+                                        placeholder="Date and time"
                                 />
                                 <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
-                                <ngx-mat-datetime-picker #picker> </ngx-mat-datetime-picker>
+                                <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
                             </mat-form-field>
                         </div>
                     </mat-card>
@@ -37,7 +40,14 @@
                     <mat-icon class="tab-icon">camera_alt</mat-icon>
                     Camera
                 </ng-template>
-                Content 2
+                <div class="flex-container">
+                    <mat-card class="loading-card" *ngIf="!isDataLoaded">
+                        <ngx-skeleton-loader animation="pulse" count="8" appearance="line"></ngx-skeleton-loader>
+                    </mat-card>
+                    <mat-card *ngIf="isDataLoaded">
+                        Content 2
+                    </mat-card>
+                </div>
             </mat-tab>
 
             <mat-tab>
@@ -45,7 +55,14 @@
                     <mat-icon class="tab-icon">supervised_user_circle</mat-icon>
                     Author
                 </ng-template>
-                Content 3
+                <div class="flex-container">
+                    <mat-card class="loading-card" *ngIf="!isDataLoaded">
+                        <ngx-skeleton-loader animation="pulse" count="8" appearance="line"></ngx-skeleton-loader>
+                    </mat-card>
+                    <mat-card *ngIf="isDataLoaded">
+                        Content 2
+                    </mat-card>
+                </div>
             </mat-tab>
 
             <mat-tab>
@@ -53,20 +70,21 @@
                     <mat-icon class="tab-icon">map</mat-icon>
                     Location
                 </ng-template>
-                <div *ngIf="!imgData?.isGpsDataDefined" id="create-gps-container" class="flex-row">
+                <ngx-skeleton-loader *ngIf="!isDataLoaded" animation="pulse" count="8" appearance="line"></ngx-skeleton-loader>
+                <div *ngIf="!imgData?.isGpsDataDefined && isDataLoaded" id="create-gps-container" class="flex-row">
                     <div>No coordinates provided for image. Do you want to create GPS data?</div>
                     <button mat-stroked-button (click)="generateGpsTemplate()">Create</button>
                 </div>
-                <leaflet-map class="flex-stretch" #map [(gpsCoordinates)]="gpsCoordinates"> </leaflet-map>
+                <leaflet-map class="flex-stretch" #map [(gpsCoordinates)]="gpsCoordinates"></leaflet-map>
             </mat-tab>
         </mat-tab-group>
         <div class="flex-row button-bar">
             <button
-                *ngIf="centerButtonVisible"
-                color="primary"
-                type="button"
-                (click)="map.centerAtMarker()"
-                mat-stroked-button
+                    *ngIf="centerButtonVisible"
+                    color="primary"
+                    type="button"
+                    (click)="map.centerAtMarker()"
+                    mat-stroked-button
             >
                 Center on GPS location
             </button>

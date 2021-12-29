@@ -23,6 +23,7 @@ export class ExifEditViewComponent implements OnInit {
     imageName!: string;
     gpsCoordinates!: LatLng;
 
+    isDataLoaded = false;
     form: FormGroup;
     tabIndex = 0;
 
@@ -57,6 +58,7 @@ export class ExifEditViewComponent implements OnInit {
         this.imageUrl = this.imageService.url.getValue();
         this.imageName = this.imageService.image.getValue()?.name ?? '';
         this.exifService.getExif(this.imageUrl, this.imageName).subscribe((imgData) => {
+            this.isDataLoaded = true;
             this.imgData = imgData;
             if (imgData.isGpsDataDefined) {
                 this.gpsCoordinates = this.coordinatesService.calculateCoordinates(
@@ -111,4 +113,5 @@ export class ExifEditViewComponent implements OnInit {
         }
         // TODO more exif data
     }
+
 }
