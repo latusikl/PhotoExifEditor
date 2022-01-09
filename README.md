@@ -5,5 +5,4 @@ TODO:
     - sekcja camera
     - sekcja author
 - przycisk do czysszczenia metaddanych - DS
-- ogarnięcie responsywności html i body
 - dodanie spinnera

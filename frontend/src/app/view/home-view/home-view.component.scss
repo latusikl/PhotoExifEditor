@@ -6,9 +6,14 @@ $title-part2-color: #9e9e9e;
 }
 
 #home-img {
-    width: 400px;
-    margin-left: 3em;
+    width: 100%;
+    height: 100%;
     display: flex;
+    max-width: 400px;
+}
+
+.img-container {
+    margin: 0 2em;
 }
 
 #main-container {
@@ -24,6 +29,8 @@ $title-part2-color: #9e9e9e;
 }
 
 #jumbotron {
+    margin: 2em;
+
     h1 {
         font-size: 3rem;
         font-weight: 100;
