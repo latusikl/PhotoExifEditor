@@ -3,7 +3,9 @@
         <div id="img-name">
             <label matTooltipPosition="left" [matTooltip]="imageName">{{ imageName }}</label>
         </div>
-        <img [src]="imageUrl" />
+        <div>
+            <img [src]="imageUrl" />
+        </div>
         <div class="flex-row button-bar" *ngIf="showButtons">
             <button mat-stroked-button routerLink="/exif-edit">Edit</button>
             <button mat-stroked-button color="warn" (click)="deleteImg()">Delete</button>
