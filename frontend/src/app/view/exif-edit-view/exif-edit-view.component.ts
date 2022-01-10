@@ -85,6 +85,7 @@ export class ExifEditViewComponent implements OnInit {
 
     set latitude(value: number) {
         this.gpsCoordinates.lat = value * this.latitudeRef;
+        this.gpsCoordinates = this.gpsCoordinates.clone();
     }
 
     get longitude(): number {
@@ -93,20 +94,24 @@ export class ExifEditViewComponent implements OnInit {
 
     set longitude(value: number) {
         this.gpsCoordinates.lng = value * this.longitudeRef;
+        this.gpsCoordinates = this.gpsCoordinates.clone();
     }
 
     ngOnInit(): void {
         this.imageUrl = this.imageService.url.getValue();
         this.imageName = this.imageService.image.getValue()?.name ?? '';
-        this.exifService.getExif(this.imageUrl, this.imageName).subscribe((imgData) => {
-            this.isDataLoaded = true;
-            this.imgData = imgData;
-            if (imgData.isGpsDataDefined) {
-                this.gpsCoordinates = this.coordinatesService.calculateCoordinates(
-                    imgData.exifData.GPS as IExifElement,
-                );
-            }
-            this.initForm();
+        this.exifService.getExif(this.imageUrl, this.imageName).subscribe({
+            next: (imgData) => {
+                this.isDataLoaded = true;
+                this.imgData = imgData;
+                if (imgData.isGpsDataDefined) {
+                    this.gpsCoordinates = this.coordinatesService.calculateCoordinates(
+                        imgData.exifData.GPS as IExifElement,
+                    );
+                }
+                this.initForm();
+            },
+            error: () => this.router.navigate(['/']),
         });
     }
 

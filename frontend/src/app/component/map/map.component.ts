@@ -32,14 +32,13 @@ export class MapComponent {
     @HostBinding('class')
     private class = 'full-width';
     private mapReady = new BehaviorSubject<boolean>(false);
-    private posChanged = false;
 
     constructor(private nominatimService: NominatimService, private el: ElementRef) {}
 
     @Input()
     set gpsCoordinates(latLng: LatLng) {
         this.latLng = latLng;
-        if (!!latLng && !this.posChanged) {
+        if (!!latLng) {
             this.mapReady
                 .pipe(
                     filter((val) => !!val),
@@ -66,6 +65,11 @@ export class MapComponent {
     @HostListener('window:resize')
     invalidateSize(): void {
         this.map.invalidateSize();
+        this.refreshMarker();
+    }
+
+    private refreshMarker(): void {
+        this.addMarker();
     }
 
     private addMarker(): void {
@@ -78,7 +82,6 @@ export class MapComponent {
 
     private onDragEnd(ev: DragEndEvent): void {
         this.gpsCoordinatesChange.next(ev.target.getLatLng());
-        this.posChanged = true;
         this.markers[0].unbindPopup();
     }
 
@@ -91,7 +94,7 @@ export class MapComponent {
             )
             .subscribe(() => {
                 this.centerAtMarker();
-                this.markers[0].togglePopup();
+                this.markers[0].openPopup();
             });
     }
 }
