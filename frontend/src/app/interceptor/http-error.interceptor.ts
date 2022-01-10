@@ -16,7 +16,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     }
 
     handleError(error: HttpErrorResponse): Observable<never> {
-        const msg = error.error.message ?? error.error.error?.message;
+        let msg = error.error.message ?? error.error.error?.message;
+        if (!msg) {
+            msg = 'Unknown error. Check file size and integrity.';
+        }
         this.toastService.open(msg, 'error');
         return throwError(error);
     }
