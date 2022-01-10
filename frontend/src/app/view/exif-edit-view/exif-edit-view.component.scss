@@ -37,3 +37,9 @@
     width: 70%;
     max-width: 30em;
 }
+
+button {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
