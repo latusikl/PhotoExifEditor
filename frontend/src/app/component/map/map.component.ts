@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 import { MapOptions, tileLayer, Map, latLng, Layer, LatLng, marker, DragEndEvent } from 'leaflet';
 import { BehaviorSubject } from 'rxjs';
-import { delay, filter, take, tap, throwIfEmpty } from 'rxjs/operators';
+import { delay, filter, take, tap } from 'rxjs/operators';
 import { LeafletUtils } from 'src/app/model/leafletUtils';
 import { NominatimService } from 'src/app/service/nominatim.service';
 
