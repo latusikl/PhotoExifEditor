@@ -14,3 +14,26 @@
 .loading-card {
     width: 30em;
 }
+
+.ml-1em {
+    margin-left: 1em;
+}
+
+.w-3em {
+    width: 3em;
+}
+
+.my-2em {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.flex-button {
+    flex-shrink: 0;
+}
+
+#skeleton {
+    margin: 0 auto;
+    width: 70%;
+    max-width: 30em;
+}

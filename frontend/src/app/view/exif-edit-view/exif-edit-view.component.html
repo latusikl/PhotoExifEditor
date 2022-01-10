@@ -1,35 +1,39 @@
 <div class="flex-container full-width full-height">
     <image [imageName]="imageName" [imageUrl]="imageUrl" [showButtons]="false"></image>
-    <form class="flex-container flex-stretch" [formGroup]="form" (ngSubmit)="save(form.value)">
-        <mat-tab-group
-                class="mat-tab-stretch mat-tab-center"
-                mat-align-tabs="center"
-                (selectedIndexChange)="selectedTabChange($event)"
-        >
+    <ngx-skeleton-loader *ngIf="!isDataLoaded" id="skeleton" animation="pulse" count="8" appearance="line">
+    </ngx-skeleton-loader>
+    <form *ngIf="isDataLoaded" class="flex-container flex-stretch" [formGroup]="form" (ngSubmit)="save(form.value)">
+        <mat-tab-group class="mat-tab-stretch mat-tab-center" mat-align-tabs="center"
+            (selectedIndexChange)="selectedTabChange($event)">
             <mat-tab>
                 <ng-template mat-tab-label>
                     <mat-icon class="tab-icon">insert_drive_file</mat-icon>
                     File
                 </ng-template>
-                <div class="flex-container">
-                    <mat-card class="loading-card" *ngIf="!isDataLoaded">
-                        <ngx-skeleton-loader animation="pulse" count="8" appearance="line"></ngx-skeleton-loader>
-                    </mat-card>
-                    <mat-card *ngIf="isDataLoaded">
+                <div class="flex-container my-2em">
+                    <mat-card>
                         <div class="flex-container">
                             <mat-form-field appearance="fill">
                                 <mat-label>Name</mat-label>
-                                <input matInput formControlName="name" placeholder="Name with extension"/>
+                                <input matInput formControlName="name" placeholder="Name with extension" />
                             </mat-form-field>
                             <mat-form-field>
-                                <input
-                                        matInput
-                                        [ngxMatDatetimePicker]="picker"
-                                        formControlName="dateTime"
-                                        placeholder="Date and time"
-                                />
+                                <mat-label>Title</mat-label>
+                                <input matInput type="text" formControlName="imageDescription" placeholder="Title" />
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput [ngxMatDatetimePicker]="picker" formControlName="dateTime"
+                                    placeholder="Date and time" />
                                 <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
                                 <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Author</mat-label>
+                                <input matInput type="text" formControlName="author" placeholder="Author" />
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Copyright</mat-label>
+                                <input matInput type="text" formControlName="copyright" placeholder="Copyright" />
                             </mat-form-field>
                         </div>
                     </mat-card>
@@ -40,27 +44,72 @@
                     <mat-icon class="tab-icon">camera_alt</mat-icon>
                     Camera
                 </ng-template>
-                <div class="flex-container">
-                    <mat-card class="loading-card" *ngIf="!isDataLoaded">
-                        <ngx-skeleton-loader animation="pulse" count="8" appearance="line"></ngx-skeleton-loader>
-                    </mat-card>
-                    <mat-card *ngIf="isDataLoaded">
-                        Content 2
-                    </mat-card>
-                </div>
-            </mat-tab>
-
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <mat-icon class="tab-icon">supervised_user_circle</mat-icon>
-                    Author
-                </ng-template>
-                <div class="flex-container">
-                    <mat-card class="loading-card" *ngIf="!isDataLoaded">
-                        <ngx-skeleton-loader animation="pulse" count="8" appearance="line"></ngx-skeleton-loader>
-                    </mat-card>
-                    <mat-card *ngIf="isDataLoaded">
-                        Content 2
+                <div class="flex-container my-2em">
+                    <mat-card>
+                        <div *ngIf="!imgData?.isGpsDataDefined" id="create-gps-container" class="flex-row">
+                            <div>No coordinates provided for image. Do you want to create GPS data?</div>
+                            <button class="flex-button" mat-stroked-button
+                                (click)="generateGpsTemplate()">Create</button>
+                        </div>
+                        <div class="flex-container">
+                            <mat-form-field>
+                                <mat-label>Focal length (mm)</mat-label>
+                                <input matInput type="number" formControlName="focal" placeholder="Focal length" />
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Exposure time (s)</mat-label>
+                                <input matInput type="number" formControlName="exposure" placeholder="Exposure" />
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Brand</mat-label>
+                                <input type="text" matInput formControlName="cameraBrand" [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let brand of brands" [value]="brand">
+                                        {{brand}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Model</mat-label>
+                                <input matInput type="text" formControlName="cameraModel" placeholder="Model" />
+                            </mat-form-field>
+                            <div *ngIf="!!imgData?.isGpsDataDefined">
+                                <div class="flex-row">
+                                    <mat-form-field>
+                                        <mat-label>Latitude</mat-label>
+                                        <input matInput type="number" [step]="0.0001" [(ngModel)]="latitude"
+                                            [ngModelOptions]="{standalone: true}" placeholder="Latitude" />
+                                    </mat-form-field>
+                                    <mat-form-field class="ml-1em w-3em">
+                                        <mat-select [(ngModel)]="latitudeRef" [ngModelOptions]="{standalone: true}">
+                                            <mat-option [value]="1">
+                                                N
+                                            </mat-option>
+                                            <mat-option [value]="-1">
+                                                S
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex-row">
+                                    <mat-form-field>
+                                        <mat-label>Longitude</mat-label>
+                                        <input matInput type="number" [step]="0.0001" [(ngModel)]="longitude"
+                                            [ngModelOptions]="{standalone: true}" placeholder="Longitude" />
+                                    </mat-form-field>
+                                    <mat-form-field class="ml-1em w-3em">
+                                        <mat-select [(ngModel)]="longitudeRef" [ngModelOptions]="{standalone: true}">
+                                            <mat-option [value]="1">
+                                                E
+                                            </mat-option>
+                                            <mat-option [value]="-1">
+                                                W
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
                     </mat-card>
                 </div>
             </mat-tab>
@@ -70,8 +119,7 @@
                     <mat-icon class="tab-icon">map</mat-icon>
                     Location
                 </ng-template>
-                <ngx-skeleton-loader *ngIf="!isDataLoaded" animation="pulse" count="8" appearance="line"></ngx-skeleton-loader>
-                <div *ngIf="!imgData?.isGpsDataDefined && isDataLoaded" id="create-gps-container" class="flex-row">
+                <div *ngIf="!imgData?.isGpsDataDefined" id="create-gps-container" class="flex-row">
                     <div>No coordinates provided for image. Do you want to create GPS data?</div>
                     <button mat-stroked-button (click)="generateGpsTemplate()">Create</button>
                 </div>
@@ -79,15 +127,11 @@
             </mat-tab>
         </mat-tab-group>
         <div class="flex-row button-bar">
-            <button
-                    *ngIf="centerButtonVisible"
-                    color="primary"
-                    type="button"
-                    (click)="map.centerAtMarker()"
-                    mat-stroked-button
-            >
+            <button *ngIf="centerButtonVisible" color="primary" type="button" (click)="map.centerAtMarker()"
+                mat-stroked-button>
                 Center on GPS location
             </button>
+            <button mat-stroked-button type="button" color="accent" (click)="clear()">Clear metadata</button>
             <button mat-stroked-button type="submit">Download</button>
             <button mat-stroked-button type="button" color="warn" routerLink="../">Cancel</button>
         </div>
