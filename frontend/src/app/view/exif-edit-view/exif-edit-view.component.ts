@@ -146,8 +146,6 @@ export class ExifEditViewComponent implements OnInit {
         this.form.controls.exposure.setValue(this.imgData.exposure);
         this.form.controls.author.setValue(this.imgData.author);
         this.form.controls.imageDescription.setValue(this.imgData.imageDescription);
-        this.form.controls.title.setValue(this.imgData.title);
-        this.form.controls.comment.setValue(this.imgData.comment);
         this.form.controls.copyright.setValue(this.imgData.copyright);
         this.form.controls.cameraBrand.setValue(this.imgData.cameraMake);
         this.form.controls.cameraModel.setValue(this.imgData.cameraModel);
@@ -170,8 +168,6 @@ export class ExifEditViewComponent implements OnInit {
         this.imgData.exposure = formData.exposure.toString();
         this.imgData.author = formData.author;
         this.imgData.imageDescription = formData.imageDescription;
-        this.imgData.title = formData.title;
-        this.imgData.comment = formData.comment;
         this.imgData.copyright = formData.copyright;
         this.imgData.cameraMake = formData.cameraBrand;
         this.imgData.cameraModel = formData.cameraModel;
