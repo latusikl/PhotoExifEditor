@@ -164,12 +164,12 @@ export class ExifEditViewComponent implements OnInit {
             );
         }
         this.imgData.name = formData.name;
-        this.imgData.focal = formData.focal.toString();
-        this.imgData.exposure = formData.exposure.toString();
-        this.imgData.author = formData.author;
-        this.imgData.imageDescription = formData.imageDescription;
-        this.imgData.copyright = formData.copyright;
-        this.imgData.cameraMake = formData.cameraBrand;
-        this.imgData.cameraModel = formData.cameraModel;
+        this.imgData.focal = formData.focal?.toString() ?? '';
+        this.imgData.exposure = formData.exposure?.toString() ?? '';
+        this.imgData.author = formData.author ?? '';
+        this.imgData.imageDescription = formData.imageDescription ?? '';
+        this.imgData.copyright = formData.copyright ?? '';
+        this.imgData.cameraMake = formData.cameraBrand ?? '';
+        this.imgData.cameraModel = formData.cameraModel ?? '';
     }
 }
