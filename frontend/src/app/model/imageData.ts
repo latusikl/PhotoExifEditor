@@ -13,6 +13,8 @@ export type ImageTag = keyof typeof TagValues.ImageIFD;
 export class ImageData {
     constructor(public name: string, public exifData: IExif) {}
 
+    private readonly FRACTION_NUMBERS = 4;
+
     private getImageAttribute0(imageTag: ImageTag): TagValue {
         const imageData = this.getExifElement('0th');
         return imageData[TagValues.ImageIFD[imageTag]];
@@ -60,6 +62,42 @@ export class ImageData {
         }
     }
 
+    private getExifRealValue(exifTag: ExifTag): string {
+        const spec = this.getExifAttribute(exifTag) as number[];
+        if (spec && spec[1] !== 0) return (spec[0] / spec[1]).toFixed(this.FRACTION_NUMBERS);
+        return '';
+    }
+
+    private setExifRealValue(exifTag: ExifTag, value: string): void {
+        value
+            ? this.setExifAttribute(exifTag, this.toIrreducibleOrdinaryFraction(value))
+            : this.setExifAttribute(exifTag, null);
+    }
+
+    private toIrreducibleOrdinaryFraction(value: string): [number, number] {
+        const exponent = value.indexOf('.') !== -1 ? value.trim().split('.')[1].length : value.length;
+        const denominator = Math.pow(10, exponent);
+        const numerator = Math.floor(Number(value) * denominator);
+        const greatestCommonDivisor = this.greatestCommonDivisor(denominator, numerator);
+
+        return [numerator / greatestCommonDivisor, denominator / greatestCommonDivisor];
+    }
+
+    private greatestCommonDivisor(a: number, b: number): number {
+        let greatestCommonDivisor = 1;
+        while (b !== 0) {
+            greatestCommonDivisor = b;
+            b = a % b;
+            a = greatestCommonDivisor;
+        }
+        return greatestCommonDivisor;
+    }
+
+    private getGpsAttribute(gpsTag: GpsTag): TagValue {
+        const gpsData = this.exifData?.GPS;
+        return gpsData?.[TagValues.GPSIFD[gpsTag]] ?? null;
+    }
+
     get dateTimeOriginal(): Date | undefined {
         const atr = this.getExifAttribute('DateTimeOriginal');
         return !!atr ? dayjs(String(atr), 'YYYY:MM:DD HH:mm:ss').toDate() : undefined;
@@ -92,6 +130,66 @@ export class ImageData {
 
     set isoSpeedRatings(isoSpeedRatings: number) {
         this.setExifAttribute('ISOSpeedRatings', isoSpeedRatings);
+    }
+
+    get focal(): string {
+        return this.getExifRealValue('FocalLength');
+    }
+
+    set focal(focal: string) {
+        this.setExifRealValue('FocalLength', focal);
+    }
+
+    get exposure(): string {
+        return this.getExifRealValue('ExposureTime');
+    }
+
+    set exposure(exposure: string) {
+        this.setExifRealValue('ExposureTime', exposure);
+    }
+
+    get longitudeRef(): string {
+        const value = this.getGpsAttribute('GPSLongitudeRef');
+        return value ? String(value) : '';
+    }
+
+    get longitude(): string {
+        const value = this.getGpsAttribute('GPSLongitude');
+        return value ? String(value) : '';
+    }
+
+    get latitudeRef(): string {
+        const value = this.getGpsAttribute('GPSLatitudeRef');
+        return value ? String(value) : '';
+    }
+
+    get latitude(): string {
+        const value = this.getGpsAttribute('GPSLatitude');
+        return value ? String(value) : '';
+    }
+
+    get imageDescription(): string {
+        return (this.getImageAttribute0('ImageDescription') as string) ?? '';
+    }
+
+    set imageDescription(value: string) {
+        this.setImageAttribute0('ImageDescription', value);
+    }
+
+    get copyright(): string {
+        return (this.getImageAttribute0('Copyright') as string) ?? '';
+    }
+
+    set copyright(value: string) {
+        this.setImageAttribute0('Copyright', value);
+    }
+
+    get author(): string {
+        return (this.getImageAttribute0('Artist') as string) ?? '';
+    }
+
+    set author(value: string) {
+        this.setImageAttribute0('Artist', value);
     }
 
     get cameraMake(): string {

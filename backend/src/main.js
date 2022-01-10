@@ -4,7 +4,7 @@ import ExifController from "./controller/exif-controller.js"
 
 const app = express();
 const port = process.env.PORT || 3000;
-const jsonSizeLimit = process.env.SIZE_LIMIT || "15mb"
+const jsonSizeLimit = process.env.SIZE_LIMIT || "5mb"
 
 app.use(express.json({limit: jsonSizeLimit}));
 app.use(cors());

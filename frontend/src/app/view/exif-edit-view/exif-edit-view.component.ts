@@ -1,6 +1,5 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { LatLng } from 'leaflet';
 import { MapComponent } from '../../component/map/map.component';
@@ -18,14 +17,30 @@ import { IExifElement } from '../../model/piexif-types/interfaces';
     styleUrls: ['./exif-edit-view.component.scss'],
 })
 export class ExifEditViewComponent implements OnInit {
+    readonly MAP_TAB_INDEX = 2;
     imgData!: ImageData;
     imageUrl!: string;
     imageName!: string;
     gpsCoordinates!: LatLng;
+    latitudeRef = 1;
+    longitudeRef = 1;
 
     isDataLoaded = false;
     form: FormGroup;
     tabIndex = 0;
+
+    brands: string[] = [
+        'Canon',
+        'Nikon',
+        'Panasonic',
+        'Fujifilm',
+        'Sony',
+        'Olympus',
+        'Leica',
+        'GoPro',
+        'Pentax',
+        'Kodak',
+    ].sort();
 
     @HostBinding('class')
     private class = 'view';
@@ -43,15 +58,41 @@ export class ExifEditViewComponent implements OnInit {
         this.form = new FormGroup({
             name: new FormControl('', [Validators.required]),
             dateTime: new FormControl(''),
+            focal: new FormControl(),
+            fNumber: new FormControl(),
+            exposure: new FormControl(),
+            cameraBrand: new FormControl(),
+            cameraModel: new FormControl(),
+            author: new FormControl(),
+            imageDescription: new FormControl(),
+            title: new FormControl(),
+            comment: new FormControl(),
+            copyright: new FormControl(),
         });
     }
 
     get centerButtonVisible(): boolean {
-        return this.tabIndex === 3 && !!this.imgData?.isGpsDataDefined;
+        return this.isMapTabSelected && !!this.imgData?.isGpsDataDefined;
     }
 
     get isMapTabSelected(): boolean {
-        return this.tabIndex === 3;
+        return this.tabIndex === this.MAP_TAB_INDEX;
+    }
+
+    get latitude(): number {
+        return +Math.abs(this.gpsCoordinates.lat).toFixed(6);
+    }
+
+    set latitude(value: number) {
+        this.gpsCoordinates.lat = value * this.latitudeRef;
+    }
+
+    get longitude(): number {
+        return +Math.abs(this.gpsCoordinates.lng).toFixed(6);
+    }
+
+    set longitude(value: number) {
+        this.gpsCoordinates.lng = value * this.longitudeRef;
     }
 
     ngOnInit(): void {
@@ -81,6 +122,10 @@ export class ExifEditViewComponent implements OnInit {
         }
     }
 
+    clear(): void {
+        this.form.reset();
+    }
+
     save(formData: ExifFormData): void {
         this.patchExif(formData);
         this.exifService
@@ -97,6 +142,13 @@ export class ExifEditViewComponent implements OnInit {
     private initForm(): void {
         this.form.controls.name.setValue(this.imageName);
         this.form.controls.dateTime.setValue(this.imgData.dateTimeOriginal);
+        this.form.controls.focal.setValue(this.imgData.focal);
+        this.form.controls.exposure.setValue(this.imgData.exposure);
+        this.form.controls.author.setValue(this.imgData.author);
+        this.form.controls.imageDescription.setValue(this.imgData.imageDescription);
+        this.form.controls.copyright.setValue(this.imgData.copyright);
+        this.form.controls.cameraBrand.setValue(this.imgData.cameraMake);
+        this.form.controls.cameraModel.setValue(this.imgData.cameraModel);
     }
 
     private patchExif(formData: ExifFormData): void {
@@ -111,7 +163,13 @@ export class ExifEditViewComponent implements OnInit {
                 this.gpsCoordinates,
             );
         }
-        // TODO more exif data
+        this.imgData.name = formData.name;
+        this.imgData.focal = formData.focal?.toString() ?? '';
+        this.imgData.exposure = formData.exposure?.toString() ?? '';
+        this.imgData.author = formData.author ?? '';
+        this.imgData.imageDescription = formData.imageDescription ?? '';
+        this.imgData.copyright = formData.copyright ?? '';
+        this.imgData.cameraMake = formData.cameraBrand ?? '';
+        this.imgData.cameraModel = formData.cameraModel ?? '';
     }
-
 }
